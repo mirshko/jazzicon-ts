@@ -37,11 +37,11 @@
   "size-limit": [
     {
       "path": "dist/jazzicon-ts.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "7 KB"
     },
     {
       "path": "dist/jazzicon-ts.esm.js",
-      "limit": "10 KB"
+      "limit": "7 KB"
     }
   ],
   "devDependencies": {
