@@ -1,5 +1,5 @@
 import MersenneTwister from 'mersenne-twister';
-import Color from 'color';
+import color from 'tinycolor2';
 import DEFAULT_COLORS from './colors';
 
 const SHAPE_COUNT = 3;
@@ -14,13 +14,11 @@ function hueShift(
 ): string[] {
   const amount = generator.random() * 30 - WOBBLE / 2;
 
-  return colors.map(hex => {
-    const color = new Color(hex);
-
-    color.rotate(amount);
-
-    return color.hex();
-  });
+  return colors.map(hex =>
+    color(hex)
+      .spin(amount)
+      .toHexString()
+  );
 }
 
 function removeRandomColor(
