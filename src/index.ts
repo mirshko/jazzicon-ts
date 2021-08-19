@@ -4,7 +4,7 @@ import { COLORS, SHAPE_COUNT, SVG_NS } from './constants';
 
 let generator: MersenneTwister;
 
-export default function generateIdenticon(
+export default function jazzicon(
   diameter: number,
   seed: number | number[] | undefined
 ) {
