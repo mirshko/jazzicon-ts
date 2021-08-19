@@ -1,9 +1,9 @@
 import jazzicon from '../src';
 
 describe('jazzicon', () => {
-  it('has a div container', () => {
-    const div = jazzicon(10, 1);
+  it('should generate div with a child element', () => {
+    const div = jazzicon(32, 1);
 
-    expect(div.children).toHaveLength(1);
+    expect(div.firstChild).toBeTruthy();
   });
 });
