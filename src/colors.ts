@@ -1,7 +1,17 @@
-// @ts-nocheck
-
 import MersenneTwister from 'mersenne-twister';
 import { WOBBLE } from './constants';
+
+type RGB = {
+  r: number;
+  g: number;
+  b: number;
+};
+
+type HSL = {
+  h: number;
+  s: number;
+  l: number;
+};
 
 export function hueShift(colors: string[], generator: MersenneTwister) {
   const amount = generator.random() * 30 - WOBBLE / 2;
@@ -12,7 +22,7 @@ export function hueShift(colors: string[], generator: MersenneTwister) {
 }
 
 export function colorRotate(hex: string, degrees: number) {
-  const hsl = hexToHSL(hex);
+  const hsl = HexToHSL(hex);
 
   let hue = hsl.h;
   hue = (hue + degrees) % 360;
@@ -23,23 +33,29 @@ export function colorRotate(hex: string, degrees: number) {
   return HSLToHex(hsl);
 }
 
-function hexToHSL(hex: string) {
-  // Convert hex to RGB first
-  var r = '0x' + hex[1] + hex[2];
-  var g = '0x' + hex[3] + hex[4];
-  var b = '0x' + hex[5] + hex[6];
+function HexToRGB(hex: string): RGB {
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+
+  return { r, g, b };
+}
+
+function HexToHSL(hex: string): HSL {
+  let { r, g, b } = HexToRGB(hex);
 
   // Then to HSL
   r /= 255;
   g /= 255;
   b /= 255;
 
-  var cmin = Math.min(r, g, b),
-    cmax = Math.max(r, g, b),
-    delta = cmax - cmin,
-    h = 0,
-    s = 0,
-    l = 0;
+  const cmin = Math.min(r, g, b);
+  const cmax = Math.max(r, g, b);
+  const delta = cmax - cmin;
+
+  let h = 0;
+  let s = 0;
+  let l = 0;
 
   if (delta == 0) h = 0;
   else if (cmax == r) h = ((g - b) / delta) % 6;
@@ -58,17 +74,19 @@ function hexToHSL(hex: string) {
   return { h, s, l };
 }
 
-function HSLToHex(hsl) {
-  var { h, s, l } = hsl;
+function HSLToHex(hsl: HSL): string {
+  let { h, s, l } = hsl;
+
   s /= 100;
   l /= 100;
 
-  let c = (1 - Math.abs(2 * l - 1)) * s,
-    x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
-    m = l - c / 2,
-    r = 0,
-    g = 0,
-    b = 0;
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+
+  let r = 0;
+  let g = 0;
+  let b = 0;
 
   if (0 <= h && h < 60) {
     r = c;
@@ -95,15 +113,16 @@ function HSLToHex(hsl) {
     g = 0;
     b = x;
   }
+
   // Having obtained RGB, convert channels to hex
-  r = Math.round((r + m) * 255).toString(16);
-  g = Math.round((g + m) * 255).toString(16);
-  b = Math.round((b + m) * 255).toString(16);
+  let r_hex = Math.round((r + m) * 255).toString(16);
+  let g_hex = Math.round((g + m) * 255).toString(16);
+  let b_hex = Math.round((b + m) * 255).toString(16);
 
   // Prepend 0s, if necessary
-  if (r.length == 1) r = '0' + r;
-  if (g.length == 1) g = '0' + g;
-  if (b.length == 1) b = '0' + b;
+  if (r_hex.length == 1) r_hex = '0' + r_hex;
+  if (g_hex.length == 1) g_hex = '0' + g_hex;
+  if (b_hex.length == 1) b_hex = '0' + b_hex;
 
   return '#' + r + g + b;
 }
