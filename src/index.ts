@@ -1,33 +1,32 @@
 import MersenneTwister from 'mersenne-twister';
-import color from 'tinycolor2';
-import DEFAULT_COLORS from './colors';
+import { hueShift } from './colors';
+import { COLORS, SHAPE_COUNT, SVG_NS } from './constants';
 
-const SHAPE_COUNT = 3;
+let generator: MersenneTwister;
 
-const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
+export default function generateIdenticon(
+  diameter: number,
+  seed: number | number[] | undefined
+) {
+  generator = new MersenneTwister(seed);
 
-const WOBBLE = 30;
+  const remainingColors = hueShift(COLORS.slice(), generator);
 
-function hueShift(
-  colors: readonly string[],
-  generator: MersenneTwister
-): string[] {
-  const amount = generator.random() * 30 - WOBBLE / 2;
+  const container = genPaper(diameter, genColor(remainingColors));
 
-  return colors.map(hex =>
-    color(hex)
-      .spin(amount)
-      .toHexString()
-  );
-}
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttributeNS(null, 'x', '0');
+  svg.setAttributeNS(null, 'y', '0');
+  svg.setAttributeNS(null, 'width', String(diameter));
+  svg.setAttributeNS(null, 'height', String(diameter));
 
-function removeRandomColor(
-  colors: string[],
-  generator: MersenneTwister
-): string {
-  const idx = Math.floor(colors.length * generator.random());
+  container.appendChild(svg);
 
-  return colors.splice(idx, 1)[0];
+  for (var i = 0; i < SHAPE_COUNT - 1; i++) {
+    genShape(remainingColors, diameter, i, SHAPE_COUNT - 1, svg);
+  }
+
+  return container;
 }
 
 function genShape(
@@ -35,19 +34,20 @@ function genShape(
   diameter: number,
   i: number,
   total: number,
-  svg: SVGElement,
-  generator: MersenneTwister
+  svg: Element
 ) {
   const center = diameter / 2;
 
-  const shape = document.createElementNS(SVG_NAMESPACE, 'rect');
+  const shape = document.createElementNS(SVG_NS, 'rect');
   shape.setAttributeNS(null, 'x', '0');
   shape.setAttributeNS(null, 'y', '0');
-  shape.setAttributeNS(null, 'width', `${diameter}`);
-  shape.setAttributeNS(null, 'height', `${diameter}`);
+  shape.setAttributeNS(null, 'width', String(diameter));
+  shape.setAttributeNS(null, 'height', String(diameter));
 
   const firstRot = generator.random();
+
   const angle = Math.PI * 2 * firstRot;
+
   const velocity =
     (diameter / total) * generator.random() + (i * diameter) / total;
 
@@ -59,18 +59,34 @@ function genShape(
   // Third random is a shape rotation on top of all of that.
   const secondRot = generator.random();
 
-  const degreeRotation = firstRot * 360 + secondRot * 180;
-  const rotate = `rotate(${degreeRotation.toFixed(1)} ${center} ${center})`;
-  const transform = `${translate} ${rotate}`;
+  const rot = firstRot * 360 + secondRot * 180;
+
+  const rotate = `rotate(${rot.toFixed(1)} ${center} ${center})`;
+
+  const transform = translate + ' ' + rotate;
+
   shape.setAttributeNS(null, 'transform', transform);
-  const fill = removeRandomColor(remainingColors, generator);
+
+  const fill = genColor(remainingColors);
+
   shape.setAttributeNS(null, 'fill', fill);
 
   svg.appendChild(shape);
 }
 
-function newContainer(diameter: number, color: string): HTMLDivElement {
+function genColor(colors: string[]) {
+  generator.random();
+
+  const idx = Math.floor(colors.length * generator.random());
+
+  const color = colors.splice(idx, 1)[0];
+
+  return color;
+}
+
+function genPaper(diameter: number, color: string) {
   const container = document.createElement('div');
+
   container.style.borderRadius = '50px';
   container.style.overflow = 'hidden';
   container.style.padding = '0px';
@@ -79,34 +95,6 @@ function newContainer(diameter: number, color: string): HTMLDivElement {
   container.style.height = `${diameter}px`;
   container.style.display = 'inline-block';
   container.style.background = color;
-
-  return container;
-}
-
-export default function jazzicon(
-  diameter: number,
-  seed: number
-): HTMLDivElement {
-  const generator = new MersenneTwister(seed);
-
-  const remainingColors = hueShift(DEFAULT_COLORS, generator);
-
-  const container = newContainer(
-    diameter,
-    removeRandomColor(remainingColors, generator)
-  );
-
-  const svg = document.createElementNS(SVG_NAMESPACE, 'svg');
-  svg.setAttributeNS(null, 'x', '0');
-  svg.setAttributeNS(null, 'y', '0');
-  svg.setAttributeNS(null, 'width', `${diameter}`);
-  svg.setAttributeNS(null, 'height', `${diameter}`);
-
-  container.appendChild(svg);
-
-  for (let i = 0; i < SHAPE_COUNT; i++) {
-    genShape(remainingColors, diameter, i, SHAPE_COUNT, svg, generator);
-  }
 
   return container;
 }
