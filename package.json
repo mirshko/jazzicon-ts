@@ -55,5 +55,18 @@
   },
   "dependencies": {
     "mersenne-twister": "^1.1.0"
-  }
+  },
+  "description": "Typescript version of Jazzicon",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirshko/jazzicon-ts.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/mirshko/jazzicon-ts/issues"
+  },
+  "homepage": "https://github.com/mirshko/jazzicon-ts#readme"
 }
