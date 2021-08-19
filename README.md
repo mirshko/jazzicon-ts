@@ -2,7 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/jazzicon-ts) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/jazzicon-ts) ![NPM](https://img.shields.io/npm/l/jazzicon-ts)
 
-Typescript version of Jazzicon from [danfinlay](https://github.com/danfinlay/jazzicon) based on improvements by the [MetaMask team](https://github.com/MetaMask/jazzicon).
+Typescript version of Jazzicon from [danfinlay](https://github.com/danfinlay/jazzicon) based on improvements by [jmrossy](https://github.com/MetaMask/jazzicon).
 
 ## Usage
 
