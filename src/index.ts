@@ -87,7 +87,7 @@ function genColor(colors: string[]) {
 function genPaper(diameter: number, color: string) {
   const container = document.createElement('div');
 
-  container.style.borderRadius = '100%';
+  container.style.borderRadius = '9999px';
   container.style.overflow = 'hidden';
   container.style.padding = '0px';
   container.style.margin = '0px';
