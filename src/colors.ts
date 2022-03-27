@@ -34,6 +34,8 @@ export function colorRotate(hex: string, degrees: number) {
 }
 
 function HexToRGB(hex: string): RGB {
+  hex = hex[0] == '#' ? hex.slice(1, 7) : hex;
+  
   const r = parseInt(hex.slice(0, 2), 16);
   const g = parseInt(hex.slice(2, 4), 16);
   const b = parseInt(hex.slice(4, 6), 16);
@@ -124,5 +126,5 @@ function HSLToHex(hsl: HSL): string {
   if (g_hex.length == 1) g_hex = '0' + g_hex;
   if (b_hex.length == 1) b_hex = '0' + b_hex;
 
-  return '#' + r + g + b;
+  return '#' + r_hex + g_hex + b_hex;
 }
