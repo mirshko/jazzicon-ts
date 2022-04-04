@@ -124,5 +124,5 @@ function HSLToHex(hsl: HSL): string {
   if (g_hex.length == 1) g_hex = '0' + g_hex;
   if (b_hex.length == 1) b_hex = '0' + b_hex;
 
-  return '#' + r + g + b;
+  return '#' + r_hex + g_hex + b_hex;
 }
