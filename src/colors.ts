@@ -1,5 +1,5 @@
-import MersenneTwister from 'mersenne-twister';
-import { WOBBLE } from './constants';
+import MersenneTwister from "mersenne-twister";
+import { WOBBLE } from "./constants";
 
 type RGB = {
   r: number;
@@ -120,9 +120,9 @@ function HSLToHex(hsl: HSL): string {
   let b_hex = Math.round((b + m) * 255).toString(16);
 
   // Prepend 0s, if necessary
-  if (r_hex.length == 1) r_hex = '0' + r_hex;
-  if (g_hex.length == 1) g_hex = '0' + g_hex;
-  if (b_hex.length == 1) b_hex = '0' + b_hex;
+  if (r_hex.length == 1) r_hex = "0" + r_hex;
+  if (g_hex.length == 1) g_hex = "0" + g_hex;
+  if (b_hex.length == 1) b_hex = "0" + b_hex;
 
-  return '#' + r_hex + g_hex + b_hex;
+  return "#" + r_hex + g_hex + b_hex;
 }

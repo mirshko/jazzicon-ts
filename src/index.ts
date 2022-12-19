@@ -1,6 +1,6 @@
-import MersenneTwister from 'mersenne-twister';
-import { hueShift } from './colors';
-import { COLORS, SHAPE_COUNT, SVG_NS } from './constants';
+import MersenneTwister from "mersenne-twister";
+import { hueShift } from "./colors";
+import { COLORS, SHAPE_COUNT, SVG_NS } from "./constants";
 
 let generator: MersenneTwister;
 
@@ -14,11 +14,11 @@ export default function jazzicon(
 
   const container = genPaper(diameter, genColor(remainingColors));
 
-  const svg = document.createElementNS(SVG_NS, 'svg');
-  svg.setAttributeNS(null, 'x', '0');
-  svg.setAttributeNS(null, 'y', '0');
-  svg.setAttributeNS(null, 'width', String(diameter));
-  svg.setAttributeNS(null, 'height', String(diameter));
+  const svg = document.createElementNS(SVG_NS, "svg");
+  svg.setAttributeNS(null, "x", "0");
+  svg.setAttributeNS(null, "y", "0");
+  svg.setAttributeNS(null, "width", String(diameter));
+  svg.setAttributeNS(null, "height", String(diameter));
 
   container.appendChild(svg);
 
@@ -38,11 +38,11 @@ function genShape(
 ) {
   const center = diameter / 2;
 
-  const shape = document.createElementNS(SVG_NS, 'rect');
-  shape.setAttributeNS(null, 'x', '0');
-  shape.setAttributeNS(null, 'y', '0');
-  shape.setAttributeNS(null, 'width', String(diameter));
-  shape.setAttributeNS(null, 'height', String(diameter));
+  const shape = document.createElementNS(SVG_NS, "rect");
+  shape.setAttributeNS(null, "x", "0");
+  shape.setAttributeNS(null, "y", "0");
+  shape.setAttributeNS(null, "width", String(diameter));
+  shape.setAttributeNS(null, "height", String(diameter));
 
   const firstRot = generator.random();
 
@@ -63,13 +63,13 @@ function genShape(
 
   const rotate = `rotate(${rot.toFixed(1)} ${center} ${center})`;
 
-  const transform = translate + ' ' + rotate;
+  const transform = translate + " " + rotate;
 
-  shape.setAttributeNS(null, 'transform', transform);
+  shape.setAttributeNS(null, "transform", transform);
 
   const fill = genColor(remainingColors);
 
-  shape.setAttributeNS(null, 'fill', fill);
+  shape.setAttributeNS(null, "fill", fill);
 
   svg.appendChild(shape);
 }
@@ -85,15 +85,15 @@ function genColor(colors: string[]) {
 }
 
 function genPaper(diameter: number, color: string) {
-  const container = document.createElement('div');
+  const container = document.createElement("div");
 
-  container.style.borderRadius = '9999px';
-  container.style.overflow = 'hidden';
-  container.style.padding = '0px';
-  container.style.margin = '0px';
+  container.style.borderRadius = "9999px";
+  container.style.overflow = "hidden";
+  container.style.padding = "0px";
+  container.style.margin = "0px";
   container.style.width = `${diameter}px`;
   container.style.height = `${diameter}px`;
-  container.style.display = 'inline-block';
+  container.style.display = "inline-block";
   container.style.background = color;
 
   return container;
