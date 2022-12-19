@@ -99,7 +99,7 @@ function genPaper(diameter: number, color: string) {
   return container;
 }
 
-export function hueShift(colors: string[], generator: MersenneTwister) {
+function hueShift(colors: string[], generator: MersenneTwister) {
   const amount = generator.random() * 30 - WOBBLE / 2;
 
   const rotate = (hex: string) => colord(hex).rotate(amount).toHex();
