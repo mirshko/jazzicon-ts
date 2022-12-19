@@ -19,7 +19,9 @@
     <script type="module">
       import jazzicon from "../dist/index.modern.js";
 
-      const el = jazzicon(128, "0x8B7B2b4F7A391b6f14A81221AE0920a9735B67Fc");
+      const address = "0x8B7B2b4F7A391b6f14A81221AE0920a9735B67Fc";
+
+      const el = jazzicon(128, parseInt(address.slice(2, 10), 16));
 
       document.querySelector("body").appendChild(el);
     </script>
