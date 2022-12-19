@@ -1,6 +1,6 @@
 import MersenneTwister from "mersenne-twister";
-import { hueShift } from "./colors";
-import { COLORS, SHAPE_COUNT, SVG_NS } from "./constants";
+import { COLORS, SHAPE_COUNT, SVG_NS, WOBBLE } from "./constants";
+import { colord } from "colord";
 
 let generator: MersenneTwister;
 
@@ -97,4 +97,12 @@ function genPaper(diameter: number, color: string) {
   container.style.background = color;
 
   return container;
+}
+
+export function hueShift(colors: string[], generator: MersenneTwister) {
+  const amount = generator.random() * 30 - WOBBLE / 2;
+
+  const rotate = (hex: string) => colord(hex).rotate(amount).toHex();
+
+  return colors.map(rotate);
 }
