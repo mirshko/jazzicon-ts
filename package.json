@@ -28,10 +28,9 @@
   },
   "devDependencies": {
     "@types/mersenne-twister": "^1.1.2",
+    "colord": "^2.9.3",
+    "mersenne-twister": "^1.1.0",
     "microbundle": "^0.15.1"
-  },
-  "dependencies": {
-    "mersenne-twister": "^1.1.0"
   },
   "repository": {
     "type": "git",
