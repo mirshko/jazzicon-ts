@@ -6,31 +6,24 @@
   "license": "MIT",
   "type": "module",
   "source": "src/index.ts",
-  "exports": {
-    "require": "./dist/index.cjs",
-    "default": "./dist/index.modern.js"
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.umd.js",
-  "unpkg": "./dist/index.umd.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "src"
   ],
-  "engines": {
-    "node": ">=16"
-  },
   "scripts": {
-    "dev": "microbundle watch",
-    "build": "microbundle",
-    "prepare": "yarn run build"
+    "build": "tsup ./src/index.ts --format cjs,esm --dts",
+    "lint": "tsc"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.1",
     "@types/mersenne-twister": "^1.1.2",
     "colord": "^2.9.3",
     "mersenne-twister": "^1.1.0",
-    "microbundle": "^0.15.1"
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3"
   },
   "repository": {
     "type": "git",
