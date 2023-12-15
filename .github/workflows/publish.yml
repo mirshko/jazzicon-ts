@@ -27,4 +27,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         with:
-          publish: pnpm run build && pnpm changeset publish
+          publish: pnpm run release
