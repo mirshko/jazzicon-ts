@@ -79,7 +79,7 @@ function genColor(colors: string[]) {
 
   const idx = Math.floor(colors.length * generator.random());
 
-  const color = colors.splice(idx, 1)[0];
+  const color = colors.splice(idx, 1)[0] as string;
 
   return color;
 }

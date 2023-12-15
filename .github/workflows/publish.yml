@@ -1,8 +1,11 @@
-name: CI
+name: Publish
 on:
   push:
     branches:
-      - "**"
+      - "main"
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,4 +19,8 @@ jobs:
           node-version: 16.x
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run lint && pnpm run build
+      - name: Create Release Pull Request or Publish
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: pnpm run build
