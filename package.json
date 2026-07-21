@@ -1,7 +1,8 @@
 {
   "name": "jazzicon-ts",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "author": "Jeff Reiner",
   "description": "Typescript version of Jazzicon",
