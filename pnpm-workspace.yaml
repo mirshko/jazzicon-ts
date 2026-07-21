@@ -1,0 +1,3 @@
+# Supply-chain safety: don't resolve package versions published
+# less than 7 days ago (10080 minutes). Requires pnpm >= 10.16.
+minimumReleaseAge: 10080

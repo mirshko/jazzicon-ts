@@ -2,17 +2,15 @@ import MersenneTwister from "mersenne-twister";
 import { COLORS, SHAPE_COUNT, SVG_NS, WOBBLE } from "./constants";
 import { colord } from "colord";
 
-let generator: MersenneTwister;
-
 export default function jazzicon(
   diameter: number,
   seed: number | number[] | undefined
 ) {
-  generator = new MersenneTwister(seed);
+  const generator = new MersenneTwister(seed);
 
   const remainingColors = hueShift(COLORS.slice(), generator);
 
-  const container = genPaper(diameter, genColor(remainingColors));
+  const container = genPaper(diameter, genColor(remainingColors, generator));
 
   const svg = document.createElementNS(SVG_NS, "svg");
   svg.setAttributeNS(null, "x", "0");
@@ -22,8 +20,8 @@ export default function jazzicon(
 
   container.appendChild(svg);
 
-  for (var i = 0; i < SHAPE_COUNT - 1; i++) {
-    genShape(remainingColors, diameter, i, SHAPE_COUNT - 1, svg);
+  for (let i = 0; i < SHAPE_COUNT - 1; i++) {
+    genShape(remainingColors, diameter, i, SHAPE_COUNT - 1, svg, generator);
   }
 
   return container;
@@ -34,7 +32,8 @@ function genShape(
   diameter: number,
   i: number,
   total: number,
-  svg: Element
+  svg: Element,
+  generator: MersenneTwister
 ) {
   const center = diameter / 2;
 
@@ -67,18 +66,22 @@ function genShape(
 
   shape.setAttributeNS(null, "transform", transform);
 
-  const fill = genColor(remainingColors);
+  const fill = genColor(remainingColors, generator);
 
   shape.setAttributeNS(null, "fill", fill);
 
   svg.appendChild(shape);
 }
 
-function genColor(colors: string[]) {
+function genColor(colors: string[], generator: MersenneTwister) {
+  // This throwaway call is intentional: it preserves output compatibility
+  // with the original MetaMask jazzicon, which consumes a random value here.
   generator.random();
 
   const idx = Math.floor(colors.length * generator.random());
 
+  // Safe: jazzicon draws SHAPE_COUNT (4) colors from a palette of 10,
+  // so `colors` is never empty here.
   const color = colors.splice(idx, 1)[0] as string;
 
   return color;
@@ -100,7 +103,7 @@ function genPaper(diameter: number, color: string) {
 }
 
 function hueShift(colors: string[], generator: MersenneTwister) {
-  const amount = generator.random() * 30 - WOBBLE / 2;
+  const amount = generator.random() * WOBBLE - WOBBLE / 2;
 
   const rotate = (hex: string) => colord(hex).rotate(amount).toHex();
 

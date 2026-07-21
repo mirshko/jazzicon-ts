@@ -1,32 +1,48 @@
 {
   "name": "jazzicon-ts",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "author": "Jeff Reiner",
   "description": "Typescript version of Jazzicon",
   "version": "4.0.0",
   "license": "MIT",
+  "type": "module",
   "source": "src/index.ts",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
   "files": [
     "dist",
     "src"
   ],
   "scripts": {
-    "build": "tsup ./src/index.ts --format cjs,esm --dts",
+    "build": "tsup ./src/index.ts --format esm --dts --sourcemap",
     "release": "pnpm run build && pnpm changeset publish",
-    "lint": "tsc"
+    "lint": "oxlint",
+    "typecheck": "tsc",
+    "check-package": "pnpm run build && publint --strict && attw --pack . --profile esm-only"
+  },
+  "packageManager": "pnpm@10.33.2",
+  "dependencies": {
+    "colord": "^2.9.3",
+    "mersenne-twister": "^1.1.0"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.27.1",
-    "@types/mersenne-twister": "^1.1.2",
-    "colord": "^2.9.3",
-    "mersenne-twister": "^1.1.0",
-    "tsup": "^8.0.1",
-    "typescript": "^5.3.3"
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@changesets/cli": "^2.31.0",
+    "@types/mersenne-twister": "^1.1.7",
+    "oxlint": "^1.74.0",
+    "publint": "^0.3.21",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
   },
   "repository": {
     "type": "git",
