@@ -2,42 +2,60 @@ name: Publish
 
 on:
   push:
-    branches:
-      - "main"
-
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+    branches: [main]
 
 permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     environment: npm-publish
+    # Publishes to npm via OIDC trusted publishing — no NPM_TOKEN required.
+    # Set up at npmjs.com → package → Settings → Trusted Publishers:
+    # repo mirshko/jazzicon-ts, workflow publish.yml, environment npm-publish.
+    # Provenance is generated automatically and enforced via
+    # publishConfig.provenance in package.json.
+    permissions:
+      contents: write # changesets: release commits + tags
+      pull-requests: write # changesets: "Version Packages" PR
+      id-token: write # OIDC + provenance
     steps:
+      # Third-party actions pinned to commit SHAs.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
 
+      # Cache deliberately disabled for the workflow that holds
+      # `id-token: write`. Releases are infrequent; we'd rather pay
+      # ~30s to fetch fresh tarballs (gated by pnpm-workspace.yaml's
+      # `minimumReleaseAge` cooldown) than read from a cache we share
+      # with any other workflow in the repo.
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
-          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
+
+      # npm trusted publishing needs npm >= 11.5.
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
 
       - run: pnpm install --frozen-lockfile
+
+      - name: Verify dependency signatures
+        run: npm audit signatures
 
       # Gate publishing on the same checks CI runs: lint, typecheck,
       # build + publint + attw. If any fail, changesets never runs.
       - name: Verify before publish
         run: pnpm run lint && pnpm run typecheck && pnpm run check-package
 
-      # Publishes via npm Trusted Publishing (OIDC) — no NPM_TOKEN.
-      # Requires the trusted publisher to be configured on npmjs.com:
-      # repo mirshko/jazzicon-ts, workflow publish.yml, environment npm-publish.
-      # Provenance is generated automatically and enforced via
-      # publishConfig.provenance in package.json.
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
