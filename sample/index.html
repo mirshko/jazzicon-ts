@@ -16,6 +16,16 @@
   </head>
 
   <body>
+    <!-- dist/index.js keeps colord and mersenne-twister as external bare
+         imports, so the browser needs an import map to resolve them. -->
+    <script type="importmap">
+      {
+        "imports": {
+          "colord": "https://esm.sh/colord@2.9.3",
+          "mersenne-twister": "https://esm.sh/mersenne-twister@1.1.0"
+        }
+      }
+    </script>
     <script type="module">
       import jazzicon from "../dist/index.js";
 
