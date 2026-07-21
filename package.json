@@ -9,19 +9,11 @@
   "license": "MIT",
   "type": "module",
   "source": "src/index.ts",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -31,11 +23,11 @@
     "src"
   ],
   "scripts": {
-    "build": "tsup ./src/index.ts --format esm,cjs --dts --sourcemap",
+    "build": "tsup ./src/index.ts --format esm --dts --sourcemap",
     "release": "pnpm run build && pnpm changeset publish",
     "lint": "oxlint",
     "typecheck": "tsc",
-    "check-package": "pnpm run build && publint --strict && attw --pack ."
+    "check-package": "pnpm run build && publint --strict && attw --pack . --profile esm-only"
   },
   "packageManager": "pnpm@10.33.2",
   "devDependencies": {
