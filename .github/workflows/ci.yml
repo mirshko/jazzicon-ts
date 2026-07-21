@@ -32,7 +32,7 @@ jobs:
 
       - run: pnpm run typecheck
 
-      - run: pnpm run check-package
+      - run: pnpm run build
 
   changeset:
     name: Changeset present

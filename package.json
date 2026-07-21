@@ -24,11 +24,10 @@
     "src"
   ],
   "scripts": {
-    "build": "tsup ./src/index.ts --format esm --dts --sourcemap",
+    "build": "tsdown",
     "release": "pnpm run build && pnpm changeset publish",
     "lint": "oxlint",
-    "typecheck": "tsc",
-    "check-package": "pnpm run build && publint --strict && attw --pack . --profile esm-only"
+    "typecheck": "tsc"
   },
   "packageManager": "pnpm@10.33.2",
   "dependencies": {
@@ -36,12 +35,12 @@
     "mersenne-twister": "^1.1.0"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.5",
+    "@arethetypeswrong/core": "^0.18.5",
     "@changesets/cli": "^2.31.0",
     "@types/mersenne-twister": "^1.1.7",
     "oxlint": "^1.74.0",
     "publint": "^0.3.21",
-    "tsup": "^8.5.1",
+    "tsdown": "^0.22.7",
     "typescript": "^5.9.3"
   },
   "repository": {
