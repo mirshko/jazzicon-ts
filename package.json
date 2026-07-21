@@ -30,12 +30,14 @@
     "check-package": "pnpm run build && publint --strict && attw --pack . --profile esm-only"
   },
   "packageManager": "pnpm@10.33.2",
+  "dependencies": {
+    "colord": "^2.9.3",
+    "mersenne-twister": "^1.1.0"
+  },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
     "@changesets/cli": "^2.31.0",
     "@types/mersenne-twister": "^1.1.7",
-    "colord": "^2.9.3",
-    "mersenne-twister": "^1.1.0",
     "oxlint": "^1.74.0",
     "publint": "^0.3.21",
     "tsup": "^8.5.1",
