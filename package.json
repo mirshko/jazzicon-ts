@@ -1,16 +1,20 @@
 {
   "name": "jazzicon-ts",
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  },
-  "author": "Jeff Reiner",
-  "description": "Typescript version of Jazzicon",
   "version": "5.0.0",
+  "description": "Typescript version of Jazzicon",
+  "keywords": [],
+  "homepage": "https://github.com/mirshko/jazzicon-ts#readme",
+  "bugs": {
+    "url": "https://github.com/mirshko/jazzicon-ts/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirshko/jazzicon-ts.git"
+  },
   "license": "MIT",
+  "author": "Jeff Reiner",
+  "sideEffects": false,
   "type": "module",
-  "source": "src/index.ts",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -18,18 +22,18 @@
     },
     "./package.json": "./package.json"
   },
-  "sideEffects": false,
+  "source": "src/index.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "src"
   ],
   "scripts": {
     "build": "tsdown",
-    "release": "pnpm run build && pnpm changeset publish",
     "lint": "oxlint",
+    "release": "pnpm run build && pnpm changeset publish",
     "typecheck": "tsc"
   },
-  "packageManager": "pnpm@10.33.2",
   "dependencies": {
     "colord": "^2.9.3",
     "mersenne-twister": "^1.1.0"
@@ -43,13 +47,9 @@
     "tsdown": "^0.22.7",
     "typescript": "^5.9.3"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mirshko/jazzicon-ts.git"
-  },
-  "keywords": [],
-  "bugs": {
-    "url": "https://github.com/mirshko/jazzicon-ts/issues"
-  },
-  "homepage": "https://github.com/mirshko/jazzicon-ts#readme"
+  "packageManager": "pnpm@10.33.2",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }
