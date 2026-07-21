@@ -28,6 +28,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # Gate publishing on the same checks CI runs: lint, typecheck,
+      # build + publint + attw. If any fail, changesets never runs.
+      - name: Verify before publish
+        run: pnpm run lint && pnpm run typecheck && pnpm run check-package
+
       # Publishes via npm Trusted Publishing (OIDC) — no NPM_TOKEN.
       # Requires the trusted publisher to be configured on npmjs.com:
       # repo mirshko/jazzicon-ts, workflow publish.yml, environment npm-publish.
