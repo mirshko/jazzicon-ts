@@ -1,5 +1,11 @@
 # jazzicon-ts
 
+## 5.0.1
+
+### Patch Changes
+
+- 2d3a94f: Migrate the package build from tsup to tsdown. Output is functionally identical; declaration maps are now published alongside the types.
+
 ## 5.0.0
 
 ### Major Changes
