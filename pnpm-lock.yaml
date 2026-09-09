@@ -10,7 +10,7 @@ importers:
     dependencies:
       colord:
         specifier: ^2.9.3
-        version: 2.9.3
+        version: 2.9.4
       mersenne-twister:
         specifier: ^1.1.0
         version: 1.1.0
@@ -557,8 +557,8 @@ packages:
   cjs-module-lexer@1.4.3:
     resolution: {integrity: sha512-9z8TZaGM1pfswYeXrUpzPrkx8UnWYdhJclsiYMm6x/w5+nN+8Tf/LnAgfLGQCm59qAOxU8WwHEq2vNwF6i4j+Q==}
 
-  colord@2.9.3:
-    resolution: {integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==}
+  colord@2.9.4:
+    resolution: {integrity: sha512-z0nTt5300AIviCn9FTEL4G2DzPkfEDfghx6Do0ZfM3u0rOINBtfw2H8lD4VXyZF/o8HTzzyiCztaG2X/+IMeZA==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -1442,7 +1442,7 @@ snapshots:
 
   cjs-module-lexer@1.4.3: {}
 
-  colord@2.9.3: {}
+  colord@2.9.4: {}
 
   cross-spawn@7.0.6:
     dependencies:
